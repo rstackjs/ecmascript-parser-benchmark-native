@@ -64,15 +64,41 @@ pub fn main(init: std.process.Init) !void {
     try json.appendSlice(gpa, "{\"results\":[");
 
     var first = true;
+    var preflight_only = false;
     var args = init.minimal.args.iterate();
     _ = args.skip();
     while (args.next()) |path| {
+        if (std.mem.eql(u8, path, "--preflight")) { preflight_only = true; continue; }
         const source = std.Io.Dir.cwd().readFileAlloc(io, path, gpa, .unlimited) catch |e| {
             std.debug.print("zig: cannot read {s}: {s}\n", .{ path, @errorName(e) });
             continue;
         };
         defer gpa.free(source);
 
+        if (preflight_only) {
+            var tree = try parser.parse(gpa, source, .{ .lang = .fromPath(path), .source_type = .fromPath(path) });
+            defer tree.deinit();
+            _ = try parser.semantic.analyze(&tree, .{ .check = true });
+            if (tree.diagnostics.items.len != 0) return error.PreflightDiagnostics;
+            const dir = try std.fmt.allocPrint(gpa, "ast/{s}", .{std.fs.path.basename(path)});
+            defer gpa.free(dir);
+            try std.Io.Dir.cwd().createDirPath(io, dir);
+            var nodes: std.ArrayList(u8) = .empty;
+            defer nodes.deinit(gpa);
+            try nodes.appendSlice(gpa, "{\"nodes\":[");
+            for (0..tree.nodes.len) |i| {
+                const node = tree.nodes.get(i);
+                if (i != 0) try nodes.appendSlice(gpa, ",");
+                const row = try std.fmt.allocPrint(gpa, "{{\"type\":\"{s}\",\"start\":{d},\"end\":{d}}}", .{@tagName(node.data), node.span.start, node.span.end});
+                defer gpa.free(row);
+                try nodes.appendSlice(gpa, row);
+            }
+            try nodes.appendSlice(gpa, "]}\n");
+            const dest = try std.fmt.allocPrint(gpa, "{s}/yuku.nodes.json", .{dir});
+            defer gpa.free(dest);
+            try std.Io.Dir.cwd().writeFile(io, .{ .sub_path = dest, .data = nodes.items });
+            continue;
+        }
         inline for (cases) |c| {
             const s = try bench(io, c.case, source, path);
             if (!first) try json.appendSlice(gpa, ",");
@@ -87,6 +113,7 @@ pub fn main(init: std.process.Init) !void {
         }
     }
 
+    if (preflight_only) return;
     try json.appendSlice(gpa, "]}\n");
     try std.Io.File.stdout().writeStreamingAll(io, json.items);
 }

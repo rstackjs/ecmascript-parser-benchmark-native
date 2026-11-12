@@ -30,6 +30,14 @@ const ms = (s: number) => `${(s * 1000).toFixed(3)} ms`;
 const mbps = (bytes: number, s: number) => `${(bytes / (1024 * 1024) / s).toFixed(1)} MB/s`;
 
 const paths = FILES.map((f) => f.path);
+const preflight = spawnSync("./bin/rust", ["--preflight", ...paths], { stdio: "inherit" });
+if (preflight.error) throw preflight.error;
+if (preflight.status !== 0) throw new Error("Native preflight failed before timing");
+
+const zigPreflight = spawnSync("./bin/zig", ["--preflight", ...paths], { stdio: "inherit" });
+if (zigPreflight.error) throw zigPreflight.error;
+if (zigPreflight.status !== 0) throw new Error("Yuku preflight failed before timing");
+
 const results = BINS.flatMap((bin) => {
   console.log(`Running ${bin} ...`);
   return runBench(bin, paths);

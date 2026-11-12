@@ -5,13 +5,15 @@
   },
   "private": true,
   "scripts": {
-    "bench": "node scripts/run-bench.ts && pnpm run readme",
+    "bench": "pnpm run generate:ast-cache && node scripts/run-bench.ts && pnpm run readme",
     "load-files": "node scripts/load-files.ts",
     "build": "pnpm run build:zig && pnpm run build:rust",
     "build:zig": "cd zig && zig build --release=fast && mkdir -p ../bin && cp ./zig-out/bin/zig ../bin/zig",
     "build:rust": "cd rust && cargo build --release && mkdir -p ../bin && cp ./target/release/rust_parsers ../bin/rust",
     "readme": "node scripts/generate-readme.ts",
-    "update-parsers": "cd rust && cargo update && cd .. && cd zig && zig fetch --save git+https://github.com/yuku-toolchain/yuku/#HEAD"
+    "update-parsers": "cd rust && cargo update && cd .. && cd zig && zig fetch --save git+https://github.com/yuku-toolchain/yuku/#HEAD",
+    "generate:ast-cache": "node scripts/generate-ast-cache.ts",
+    "preflight": "pnpm run generate:ast-cache && ./bin/rust --preflight files/typescript.js files/checker.ts files/lib.dom.d.ts files/react.js && ./bin/zig --preflight files/typescript.js files/checker.ts files/lib.dom.d.ts files/react.js"
   },
   "type": "module",
   "packageManager": "pnpm@11.28.11",
