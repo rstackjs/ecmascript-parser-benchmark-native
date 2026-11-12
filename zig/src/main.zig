@@ -15,7 +15,7 @@ fn nsToS(ns: u64) f64 {
 fn bench(io: std.Io, comptime case: Case, source: []const u8, path: []const u8) !Stats {
     const opts: parser.Options = .{
         .lang = .fromPath(path),
-        .source_type = .fromPath(path),
+        .source_type = if (std.mem.endsWith(u8, path, ".d.ts")) .script else .module,
     };
 
     var gpa = std.heap.ArenaAllocator.init(std.heap.smp_allocator);
@@ -76,7 +76,7 @@ pub fn main(init: std.process.Init) !void {
         defer gpa.free(source);
 
         if (preflight_only) {
-            var tree = try parser.parse(gpa, source, .{ .lang = .fromPath(path), .source_type = .fromPath(path) });
+            var tree = try parser.parse(gpa, source, .{ .lang = .fromPath(path), .source_type = if (std.mem.endsWith(u8, path, ".d.ts")) .script else .module });
             defer tree.deinit();
             _ = try parser.semantic.analyze(&tree, .{ .check = true });
             if (tree.diagnostics.items.len != 0) return error.PreflightDiagnostics;
