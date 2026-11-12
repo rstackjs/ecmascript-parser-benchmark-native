@@ -1,4 +1,5 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
+import { mkdir, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const FILES = [
@@ -19,8 +20,9 @@ interface Result {
 }
 
 function runBench(bin: string, paths: string[]): Result[] {
-  const proc = Bun.spawnSync({ cmd: [bin, ...paths], stdout: "pipe", stderr: "inherit" });
-  if (!proc.success) throw new Error(`${bin} exited with code ${proc.exitCode}`);
+  const proc = spawnSync(bin, paths, { encoding: "utf-8", stdio: ["ignore", "pipe", "inherit"] });
+  if (proc.error) throw proc.error;
+  if (proc.status !== 0) throw new Error(`${bin} failed (${proc.signal ?? proc.status})`);
   return (JSON.parse(proc.stdout.toString()) as { results: Result[] }).results;
 }
 
@@ -45,7 +47,7 @@ for (const file of FILES) {
     `${JSON.stringify({ results: entries }, null, 2)}\n`,
   );
 
-  const fileSize = Bun.file(file.path).size;
+  const fileSize = (await stat(file.path)).size;
   console.log(`\n${file.path}`);
   for (const r of [...entries].sort((a, b) => a.median - b.median)) {
     console.log(`  ${r.parser.padEnd(16)} ${ms(r.median).padEnd(12)} ${mbps(fileSize, r.median)}`);
