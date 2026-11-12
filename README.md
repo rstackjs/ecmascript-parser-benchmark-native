@@ -145,7 +145,8 @@ The benchmarks below measure parsing followed by this additional pass, which bui
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) - JavaScript runtime and package manager
+- [Node.js 22.18 or later](https://nodejs.org/) - Script runtime
+- [pnpm](https://pnpm.io/) - Package manager
 - [Rust](https://www.rust-lang.org/tools/install) - For building Rust-based parsers
 - [Zig](https://ziglang.org/download/) 0.17.0 - Required by Yuku 0.27.0
 
@@ -161,25 +162,25 @@ cd ecmascript-parser-benchmark-native
 2. Install dependencies:
 
 ```bash
-bun install
+pnpm install
 ```
 
 3. Download the benchmark files:
 
 ```bash
-bun load-files
+pnpm run load-files
 ```
 
 4. Build the parsers:
 
 ```bash
-bun run build
+pnpm run build
 ```
 
 5. Run benchmarks:
 
 ```bash
-bun bench
+pnpm bench
 ```
 
 This will run benchmarks on all test files. Results are saved to the `result/` directory.

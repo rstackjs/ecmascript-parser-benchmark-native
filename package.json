@@ -1,18 +1,21 @@
 {
-	"name": "ecmascript-parser-benchmark-native",
-	"devDependencies": {
-		"@types/bun": "latest",
-		"@types/node": "^25.0.10"
-	},
-	"private": true,
-	"scripts": {
-		"bench": "bun scripts/run-bench.ts && bun readme",
-		"load-files": "bun scripts/load-files.ts",
-		"build": "bun build:zig && bun build:rust",
-		"build:zig": "cd zig && zig build --release=fast && mkdir -p ../bin && cp ./zig-out/bin/zig ../bin/zig",
-		"build:rust": "cd rust && cargo build --release && mkdir -p ../bin && cp ./target/release/rust_parsers ../bin/rust",
-		"readme": "bun scripts/generate-readme.ts",
-		"update-parsers": "cd rust && cargo update && cd .. && cd zig && zig fetch --save git+https://github.com/yuku-toolchain/yuku/#HEAD"
-	},
-	"type": "module"
+  "name": "ecmascript-parser-benchmark-native",
+  "devDependencies": {
+    "@types/node": "^25.0.10"
+  },
+  "private": true,
+  "scripts": {
+    "bench": "node scripts/run-bench.ts && pnpm run readme",
+    "load-files": "node scripts/load-files.ts",
+    "build": "pnpm run build:zig && pnpm run build:rust",
+    "build:zig": "cd zig && zig build --release=fast && mkdir -p ../bin && cp ./zig-out/bin/zig ../bin/zig",
+    "build:rust": "cd rust && cargo build --release && mkdir -p ../bin && cp ./target/release/rust_parsers ../bin/rust",
+    "readme": "node scripts/generate-readme.ts",
+    "update-parsers": "cd rust && cargo update && cd .. && cd zig && zig fetch --save git+https://github.com/yuku-toolchain/yuku/#HEAD"
+  },
+  "type": "module",
+  "packageManager": "pnpm@11.28.11",
+  "engines": {
+    "node": ">=22.18.0"
+  }
 }
