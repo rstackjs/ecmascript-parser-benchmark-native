@@ -5,17 +5,17 @@
   </style>
   <text x="64" y="11" text-anchor="end">SWC Next</text>
   <rect x="74" y="0" width="202" height="22" rx="4" fill="#2DBD85"/>
-  <text x="284" y="11">4.50 ms</text>
-  <text x="64" y="41" text-anchor="end">Yuku</text>
-  <rect x="74" y="30" width="212" height="22" rx="4" fill="#FF6B35"/>
-  <text x="294" y="41">4.71 ms</text>
-  <text class="ratio" x="278" y="41" text-anchor="end">1.05×</text>
-  <text x="64" y="71" text-anchor="end">Oxc</text>
-  <rect x="74" y="60" width="255" height="22" rx="4" fill="#F72585"/>
-  <text x="337" y="71">5.67 ms</text>
-  <text class="ratio" x="321" y="71" text-anchor="end">1.26×</text>
+  <text x="284" y="11">4.07 ms</text>
+  <text x="64" y="41" text-anchor="end">Oxc</text>
+  <rect x="74" y="30" width="220" height="22" rx="4" fill="#F72585"/>
+  <text x="302" y="41">4.42 ms</text>
+  <text class="ratio" x="286" y="41" text-anchor="end">1.09×</text>
+  <text x="64" y="71" text-anchor="end">Yuku</text>
+  <rect x="74" y="60" width="223" height="22" rx="4" fill="#FF6B35"/>
+  <text x="305" y="71">4.49 ms</text>
+  <text class="ratio" x="289" y="71" text-anchor="end">1.10×</text>
   <text x="64" y="101" text-anchor="end">SWC</text>
   <rect x="74" y="90" width="486" height="22" rx="4" fill="#4CC9F0"/>
-  <text x="568" y="101">10.82 ms</text>
+  <text x="568" y="101">9.77 ms</text>
   <text class="ratio" x="552" y="101" text-anchor="end">2.40×</text>
 </svg>

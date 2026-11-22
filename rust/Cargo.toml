@@ -3,21 +3,25 @@ name = "rust_parsers"
 version = "0.1.0"
 edition = "2024"
 
+[[bin]]
+name = "validate"
+path = "src/validate.rs"
+
 [dependencies]
-oxc_allocator = "0.158.0"
-oxc_parser = "0.158.0"
-oxc_semantic = "0.158.0"
-oxc_span = "0.158.0"
+oxc_allocator = "=0.159.0"
+oxc_parser = "=0.159.0"
+oxc_semantic = "=0.159.0"
+oxc_span = "=0.159.0"
 
-swc_ecma_parser = { version = "47.0.0", features = ["typescript"] }
-swc_common = "27.0.0"
+swc_ecma_parser = { version = "=47.0.0", features = ["typescript"] }
+swc_common = "=27.0.0"
 
-swc_next_allocator = "=0.6.1"
-swc_next_ecma_ast = "=0.6.1"
-swc_next_ecma_parser = "=0.6.1"
-swc_next_ecma_semantic = "=0.6.1"
+swc_next_allocator = "=0.7.0"
+swc_next_ecma_ast = "=0.7.0"
+swc_next_ecma_parser = "=0.7.0"
+swc_next_ecma_semantic = "=0.7.0"
 
-mimalloc = { package = "mimalloc-safe", version = "0.1.52" }
+mimalloc = { package = "mimalloc-safe", version = "=0.1.67" }
 
 [profile.release]
 opt-level     = 3

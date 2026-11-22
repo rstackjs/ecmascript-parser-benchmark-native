@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { arch, cpus, platform, release, totalmem } from "node:os";
 import { join } from "node:path";
@@ -306,7 +307,7 @@ function getSystemInfo(): string {
   const totalMemoryGB = (totalmem() / (1024 * 1024 * 1024)).toFixed(0);
   const os = platform();
   const osArch = arch();
-  const osRelease = release();
+  const osRelease = os === "darwin" ? execFileSync("sw_vers", ["-productVersion"], { encoding: "utf8" }).trim() : release();
   const osName =
     os === "darwin" ? "macOS" : os === "win32" ? "Windows" : os === "linux" ? "Linux" : os;
 
@@ -328,7 +329,7 @@ function generateRunSection(): string {
 - [Node.js 22.18 or later](https://nodejs.org/) - Script runtime
 - [pnpm](https://pnpm.io/) - Package manager
 - [Rust](https://www.rust-lang.org/tools/install) - For building Rust-based parsers
-- [Zig](https://ziglang.org/download/) 0.17.0 - Required by Yuku 0.27.0
+- [Zig](https://ziglang.org/download/) 0.17.0 - Required by Yuku 0.28.1
 
 ### Steps
 
@@ -357,7 +358,13 @@ pnpm run load-files
 pnpm run build
 \`\`\`
 
-5. Run benchmarks:
+5. Validate parser and semantic outputs:
+
+\`\`\`bash
+pnpm validate
+\`\`\`
+
+6. Run benchmarks:
 
 \`\`\`bash
 pnpm bench
@@ -376,15 +383,24 @@ The source is read once, then each parser runs 50 warmup iterations followed by 
 Binaries are built with release optimizations: Rust with \`cargo build --release\` (LTO, single codegen unit, symbol stripping) and Zig with \`zig build --release=fast\`. Each uses a fast general-purpose allocator (Rust \`mimalloc\`, Zig \`smp_allocator\`).`;
 }
 
+async function generateVersionsSection(): Promise<string> {
+  const info = JSON.parse(await readFile("benchmark-info.json", "utf8")) as { date: string; parsers: Record<string, string> };
+  return [`Measured on ${info.date}.`, "", "| Parser | Published version |", "|--------|-------------------|", ...Object.entries(info.parsers).map(([name, version]) => `| ${name} | ${version} |`)].join("\n");
+}
+
 async function main() {
   const readme = [
     "# Native ECMAScript Parser Benchmark",
+    "",
+    "This repository is a fork of [yuku-toolchain/ecmascript-parser-benchmark-native](https://github.com/yuku-toolchain/ecmascript-parser-benchmark-native), maintained to update parser benchmark data and add parsers.",
     "",
     "Benchmarks for ECMAScript parsers compiled to native binaries (Zig, Rust), measuring raw parsing speed without any JavaScript runtime overhead.",
     "",
     getSystemInfo(),
     "",
     generateParsersSection(),
+    await generateVersionsSection(),
+    "",
     await generateBenchmarksSection(),
     await generateSemanticSection(),
     generateRunSection(),
@@ -396,4 +412,4 @@ async function main() {
   console.log("README.md generated successfully!");
 }
 
-main().catch(console.error);
+main().catch(error => { console.error(error); process.exitCode = 1; });

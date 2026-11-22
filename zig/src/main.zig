@@ -64,15 +64,26 @@ pub fn main(init: std.process.Init) !void {
     try json.appendSlice(gpa, "{\"results\":[");
 
     var first = true;
+    var is_validate = false;
     var args = init.minimal.args.iterate();
     _ = args.skip();
     while (args.next()) |path| {
+        if (std.mem.eql(u8, path, "--validate")) { is_validate = true; continue; }
         const source = std.Io.Dir.cwd().readFileAlloc(io, path, gpa, .unlimited) catch |e| {
             std.debug.print("zig: cannot read {s}: {s}\n", .{ path, @errorName(e) });
             continue;
         };
         defer gpa.free(source);
 
+        if (is_validate) {
+            var tree = try parser.parse(gpa, source, .{ .lang = .fromPath(path), .source_type = .fromPath(path) });
+            defer tree.deinit();
+            if (tree.diagnostics.items.len != 0 or tree.nodes.len == 0) return error.InvalidParse;
+            const semantic = try parser.semantic.analyze(&tree, .{ .check = true });
+            if (tree.diagnostics.items.len != 0 or semantic.scopes.list.len == 0) return error.InvalidSemantic;
+            std.debug.print("{s}: Yuku nodes={d} symbols={d} references={d} scopes={d} diagnostics={d}\n", .{ path, tree.nodes.len, semantic.symbols.len, semantic.references.len, semantic.scopes.list.len, tree.diagnostics.items.len });
+            continue;
+        }
         inline for (cases) |c| {
             const s = try bench(io, c.case, source, path);
             if (!first) try json.appendSlice(gpa, ",");

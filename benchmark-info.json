@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-23",
+  "os": "macOS 26.6.2 (25G83)",
+  "cpu": "Apple M5 Max",
+  "arch": "arm64",
+  "cores": 18,
+  "memoryGB": 64,
+  "node": "24.20.0",
+  "pnpm": "11.28.11",
+  "rust": "1.98.0",
+  "zig": "0.17.0",
+  "power": "AC",
+  "inputCommit": "e25ab06730f743838b2c693d2126ea0162a661c6",
+  "inputs": {
+    "checker.ts": "ae146e68e6a201befeb45683310d13fc5eaa8875146daf046203a49648286ab1",
+    "typescript.js": "804f9c1b6c64568c39dd48eee88b77ba92d0b5d0f44f425bc96bcfe052824644",
+    "react.js": "ec670cc82d2aac81844bae49353d11bef1a8a21e727290a3bcc24a2928839496",
+    "lib.dom.d.ts": "d6b1eba8496bdd0eed6fc8a685768fe01b2da4a0388b5fe7df558290bffcf32f"
+  },
+  "parsers": {
+    "Yuku": "0.28.1",
+    "Oxc": "0.159.0",
+    "SWC": "swc_ecma_parser 47.0.0 / swc_common 27.0.0",
+    "SWC Next": "0.7.0"
+  },
+  "base": "78d93bded8e8a3f295e09228eed38204e2815c2a",
+  "workload": {
+    "warmupIterations": 50,
+    "measuredIterations": 300
+  },
+  "formalMeasurement": {
+    "start": "2026-11-23T00:52:45.119398+08:00",
+    "end": "2026-11-23T00:54:08.391264+08:00",
+    "command": "pnpm bench",
+    "matrixRows": 28,
+    "rustBinaries": {
+      "zig": "0fcc1a1db8106ac25e8f686f445b3a95a9da47cc9e832b51fbc53ff452e37078",
+      "rust": "467ec7769143f5bfa492afc5c5dd06e037f1e2c974d11d9fdbb6dfd1567f623b"
+    },
+    "resultSha256": {
+      "lib_dom.json": "15d9eecf6678e23e1a347b879cf19d0c98a20303ce8ead14015a61d48cf9e631",
+      "react.json": "5e5316ff170e44f1b59218a935c360ae00763874cd6f71af69a63a4ac2a8e1ba",
+      "typescript.json": "c08336edc3e596f84afbe1549b0a5a3bcafdc25deb742f8b1866fec7837b98c4",
+      "checker.json": "6a6fed25fb0d6bf368abc2d3fd3ecfcf6d1b6ef10a40f5e4040153a81d41de78"
+    }
+  },
+  "validation": {
+    "knownDiagnostics": "SWC lib.dom.d.ts parse_module reports two recoverable EvalAndArgumentsInStrict errors, unchanged from baseline",
+    "semanticChecks": "Oxc check_syntax_error=true; SWC Next SyntaxChecks::all(); Yuku check=true"
+  }
+}
