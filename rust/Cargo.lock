@@ -245,9 +245,9 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
-version = "0.17.1"
+version = "0.17.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
+checksum = "735eaa21a6a5ffb2e84362faaeb90c05ba8e19797ca30428478cb6ea3a4921bc"
 dependencies = [
  "allocator-api2",
  "equivalent",
@@ -431,7 +431,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cc4e190f5d26ca7051642629da2c52fc03bde85a03197c99408dcd291734c855"
 dependencies = [
  "equivalent",
- "hashbrown 0.17.1",
+ "hashbrown 0.17.2",
 ]
 
 [[package]]
@@ -572,7 +572,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "aaf8c5fa53291fec5f52e179974cc58cd002e45eab0defdbdfb6b36a1809c9ef"
 dependencies = [
  "allocator-api2",
- "hashbrown 0.17.1",
+ "hashbrown 0.17.2",
  "oxc_data_structures",
  "rustc-hash",
 ]
@@ -669,9 +669,9 @@ checksum = "00c806bed591dc97e36678eeaaccb6e85ecc21766eaf6f8a77e7a261a4457a2c"
 
 [[package]]
 name = "oxc_index"
-version = "5.0.0"
+version = "5.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "191884bee6c3744909a51acc7d78d4ae370d817b25875b10642f632327b6296e"
+checksum = "c448ca664753487e107221c172cb54ac55b500d6a8d7d126507a837f626c1f26"
 dependencies = [
  "nonmax",
  "serde",
@@ -760,7 +760,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3b51303dd938569998ad07110fff48d76da59cfe47748a39833c4652424babb4"
 dependencies = [
  "compact_str",
- "hashbrown 0.17.1",
+ "hashbrown 0.17.2",
  "memchr",
  "oxc_allocator",
  "oxc_estree",
@@ -1177,22 +1177,22 @@ dependencies = [
 
 [[package]]
 name = "swc_next_allocator"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59a699e0c22b1d9fc07c2cb16a5974a07122ad6e85ff59257869ee57e3395b88"
+checksum = "0cbea7a696f89e00d39ca5c50eb30276016caa4e0972e0707fe06359a7079563"
 dependencies = [
  "allocator-api2",
  "bumpalo",
- "hashbrown 0.17.1",
+ "hashbrown 0.17.2",
  "oxc_index",
  "rustc-hash",
 ]
 
 [[package]]
 name = "swc_next_ast_macros"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "050ac6fa5fc9dece03c3c8665fa4433afe2e905f0484db51ed6e10c455f81fee"
+checksum = "b8a702b006e034f581f88351cde6967c8708926e6b09ab902d97bd5539205ed3"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1201,9 +1201,9 @@ dependencies = [
 
 [[package]]
 name = "swc_next_ecma_ast"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c75b85b42bd0d014bca14223068837fe15ef4df29a66a48bff959eb5bba0bd5"
+checksum = "ebbc40c47af1e376cb03de23dfbbb068ec2502038477560dc38d0def8b4e8667"
 dependencies = [
  "cow-utils",
  "num-bigint 0.5.1",
@@ -1214,9 +1214,9 @@ dependencies = [
 
 [[package]]
 name = "swc_next_ecma_parser"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "626309b3c4f6147ff57ce04b3965013283eef35475769b2e865b3f9a9b90febb"
+checksum = "3b231392996553522e0c3c71881a23324dbc6429e7a5e9e49148ddf5fcf1f2e7"
 dependencies = [
  "bitflags",
  "indexmap",
@@ -1230,13 +1230,13 @@ dependencies = [
 
 [[package]]
 name = "swc_next_ecma_semantic"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2f5171c18171a86af7abc9ad585004b90c6cfb653fdaf1f6f5cab523a0ea0c08"
+checksum = "6aa6f1372ab8eb560dd6e4b9e25b53700250c35989089304163822749b56a29d"
 dependencies = [
  "bitflags",
  "chumsky",
- "hashbrown 0.17.1",
+ "hashbrown 0.17.2",
  "memchr",
  "rustc-hash",
  "swc_next_allocator",
@@ -1247,9 +1247,9 @@ dependencies = [
 
 [[package]]
 name = "swc_next_simd"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25203c7bff0a7983a22a223fe1ef106ea5d1a8fef073fb917c98e1ec42052c97"
+checksum = "5b2a1ba89a6bfbe6f7eb81a885ee3135c5d7501ff7eac734cd00fc39c9664d51"
 
 [[package]]
 name = "swc_visit"
